@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>body{margin:0}</style>
+<title>Bear Tank ICPC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Big+Shoulders+Display:wght@800;900&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one centered column. Stacked BEAR / TANK wordmark top left, lime slashes off the top right (echoing the cover art), then full-width link bars with the join link filled in lime. */
+:root {
+  --bg: #0a0d09;
+  --surface: #12170f;
+  --line: #2b3525;
+  --fg: #eef3e6;
+  --muted: #9aa68f;
+  --lime: #b8ff1f;
+  --ink: #0a0d09;
+  --font-display: 'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif;
+  --font-body: 'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.stage {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.slashes {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 340px;
+  pointer-events: none;
+}
+.slashes i {
+  position: absolute;
+  top: -80px;
+  width: 38px;
+  height: 420px;
+  background: var(--lime);
+  transform: rotate(28deg);
+  transform-origin: top left;
+}
+.slashes i:nth-child(1) { right: 22%; opacity: 0.95; }
+.slashes i:nth-child(2) { right: 11%; width: 18px; opacity: 0.55; }
+.slashes i:nth-child(3) { right: 3%; width: 10px; opacity: 0.3; }
+
+.col {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+  padding-block: 48px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--lime);
+}
+
+h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(96px, 30vw, 148px);
+  line-height: 0.8;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.tagline {
+  margin: 28px 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.tagline span { color: var(--lime); }
+
+.lede {
+  margin: 14px 0 0;
+  max-width: 36ch;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 36px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  min-height: 68px;
+  padding: 12px 18px;
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  color: var(--fg);
+  text-decoration: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.link .text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.link .name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.link .meta {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.link .arrow {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  line-height: 1;
+  color: var(--lime);
+}
+
+.link:hover,
+.link:focus-visible {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: var(--ink);
+}
+.link:hover .meta,
+.link:hover .arrow,
+.link:focus-visible .meta,
+.link:focus-visible .arrow {
+  color: var(--ink);
+}
+.link:focus-visible {
+  outline: 3px solid var(--fg);
+  outline-offset: 3px;
+}
+
+.link.primary {
+  min-height: 84px;
+  background: var(--lime);
+  border-color: var(--lime);
+  color: var(--ink);
+}
+.link.primary .name { font-size: 34px; }
+.link.primary .meta,
+.link.primary .arrow { color: var(--ink); }
+.link.primary:hover,
+.link.primary:focus-visible {
+  background: var(--fg);
+  border-color: var(--fg);
+}
+.link.primary:focus-visible { outline-color: var(--lime); }
+
+.foot {
+  margin: 40px 0 0;
+  padding-top: 18px;
+  border-top: 1.5px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link { transition: none; }
+}
+</style>
+
+</head>
+<body>
+<div class="stage">
+  <div class="slashes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <main class="col">
+    <p class="eyebrow">ICPC OTU</p>
+    <h1>Bear<br>Tank</h1>
+
+    <p class="tagline">Practice. Compete.<br><span>Grow together.</span></p>
+    <p class="lede">A community for ICPC students at OTU. Training, support and opportunities to reach the next level.</p>
+
+    <ul class="links">
+      <li>
+        <a class="link primary" href="https://chat.whatsapp.com/JCjAGpIlFLH4l5B38aWoQJ?s=cl&amp;p=i&amp;mlu=4&amp;ilr=4" target="_blank" rel="noopener">
+          <span class="text"><span class="name">Join the Community</span><span class="meta">WhatsApp group</span></span>
+          <span class="arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      </li>
+      <li>
+        <a class="link" href="https://www.facebook.com/share/1JazBFiYd8/?mibextid=wwXIfr" target="_blank" rel="noopener">
+          <span class="text"><span class="name">Facebook</span><span class="meta">Bear Tank page</span></span>
+          <span class="arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      </li>
+      <li>
+        <a class="link" href="https://www.instagram.com/beartankicpc/" target="_blank" rel="noopener">
+          <span class="text"><span class="name">Instagram</span><span class="meta">@beartankicpc</span></span>
+          <span class="arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      </li>
+      <li>
+        <a class="link" href="https://www.linkedin.com/groups/42837401" target="_blank" rel="noopener">
+          <span class="text"><span class="name">LinkedIn</span><span class="meta">Community group</span></span>
+          <span class="arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      </li>
+      <li>
+        <a class="link" href="https://x.com/BearTankICPC" target="_blank" rel="noopener">
+          <span class="text"><span class="name">X</span><span class="meta">@BearTankICPC</span></span>
+          <span class="arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      </li>
+      <li>
+        <a class="link" href="https://www.youtube.com/@BearTankICPC" target="_blank" rel="noopener">
+          <span class="text"><span class="name">YouTube</span><span class="meta">@BearTankICPC</span></span>
+          <span class="arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      </li>
+    </ul>
+
+    <p class="foot">Online training and on-campus events and contests.<br>October Technological University, 6th of October.</p>
+  </main>
+</div>
+</body>
+</html>
